@@ -82,6 +82,11 @@ int main(int argc, char **argv) {
                 num_params = 7;
                 p          = 1;
         }
+	else if(strcmp(arguments.kernel_fun, "bivariate_matern_differential_operator")   == 0 )
+	{
+		num_params     = 13;
+		p              = 2;
+	}
 	else
 	{
 		fprintf(stderr,"Choosen kernel is not exist(20)!\n");
@@ -106,6 +111,23 @@ int main(int argc, char **argv) {
 			&nZmiss, &log, initial_theta, 
 			starting_theta, target_theta, lb,
 			up, &data, &arguments);
+
+    if(strcmp(arguments.kernel_fun, "bivariate_matern_differential_operator")   == 0)
+    {
+        starting_theta[0]=0.5;
+        starting_theta[1]=0.5;
+        starting_theta[2]=2;
+        starting_theta[3]=2;
+        starting_theta[4]=0.2;
+        starting_theta[5]=0.00001;
+        starting_theta[6]=0.00001;
+        starting_theta[7]=1;
+        starting_theta[8]=0.00001;
+        starting_theta[9]=0.00001;
+        starting_theta[10]=1;
+        starting_theta[11]=0;
+        starting_theta[12]=0;
+    }
 
 	if(strcmp(arguments.kernel_fun, "univariate_spacetime_matern_stationary")   == 0)
 		p          = data.time_slots;
@@ -159,6 +181,11 @@ int main(int argc, char **argv) {
 	{
 		printf("3D example......\n");
 		locations = GenerateXYZLoc(N/p, seed);
+	}
+	else if(strcmp(arguments.dim, "earth") == 0)
+	{
+		printf("Sphere example......\n");
+		locations = GenerateXYZLocEarth(N/p, seed);
 	}
 	else if(strcmp(arguments.dim, "st") == 0)
 	{
@@ -229,6 +256,8 @@ int main(int argc, char **argv) {
 				data.hicma_data_type = HICMA_STARSH_PROB_GEOSTAT_PARSIMONIOUS_BIVARIATE_POINT;
 			else if(strcmp(arguments.kernel_fun, "bivariate_matern_parsimonious2")   == 0)
 				data.hicma_data_type = HICMA_STARSH_PROB_GEOSTAT_PARSIMONIOUS2_BIVARIATE_POINT;
+			else if(strcmp(arguments.kernel_fun, "bivariate_matern_differential_operator")   == 0)
+				data.hicma_data_type = HICMA_STARSH_PROB_GEOSTAT_DIFFERENTIAL_OPERATOR_BIVARIATE_POINT;
 		}
 	}
 #endif        

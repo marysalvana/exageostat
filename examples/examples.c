@@ -227,6 +227,8 @@ void init(int *test, int *N,  int *ncores, int *gpus, int *p_grid, int *q_grid, 
 		num_params = 6;
         else if(strcmp(data->kernel_fun, "univariate_spacetime_matern_stationary")   == 0)
                 num_params = 7;
+	else if(strcmp(data->kernel_fun, "bivariate_matern_differential_operator")   == 0)
+		num_params = 13;
 	else
 	{
 		fprintf(stderr,"Choosen kernel is not exist(6)!\n");

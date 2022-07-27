@@ -707,6 +707,49 @@ location* GenerateXYZLoc(int n, int seed)
     return locations;
 }
 
+location* GenerateXYZLocEarth(int n, int seed)
+    //! Generate XY location for exact computation (MOORSE)
+{
+    //initalization
+    int i = 0 ,index = 0, j = 0, k = 0, n_pressure = 5;
+    n/=n_pressure; ///to be modified
+    // unsigned int *seed = &exageostat_seed;
+    srand(seed);
+    location* locations = (location *) malloc( sizeof(location*));
+    //Allocate memory
+    locations->x            = (double *) malloc(n * n_pressure * sizeof(double));
+    locations->y            = (double *) malloc(n * n_pressure * sizeof(double));
+    locations->z            = (double *) malloc(n * n_pressure * sizeof(double));
+
+
+    int sqrtn = sqrt(n);        
+
+    //Check if the input is square number or not
+    if(pow(sqrtn,2) != n)    
+    {
+        printf("n=%d, Please use a perfect square number to generate a valid synthetic dataset.....\n\n", n);
+        exit(0);     
+    }
+
+    for(i = 0; i < sqrtn; i++)
+        for(j = 0; j < sqrtn; j++){
+            //locations->x[index] = -179 + i * 360 / sqrtn;
+            //locations->y[index] = -89 + j * 180 / sqrtn;
+            locations->x[index] = (double) i / sqrtn;
+            locations->y[index] = (double) j / sqrtn;
+            index++;
+        }
+
+    for(j = 0; j<n_pressure; j++)
+        for(i = 0; i < n; i++)
+        {
+            locations->x[i+j*n]= locations->x[i]; 
+            locations->y[i+j*n]= locations->y[i];
+            locations->z[i+j*n] = (double)j+1;
+        }
+
+    return locations;
+}
 
 location* GenerateXYLoc_ST(int n, int t_slots, int seed)
     //! Generate XY location for exact computation (MOORSE)
@@ -1254,6 +1297,8 @@ int print_result(MLE_data *data, double *starting_theta, int N, int zvecs, int n
             num_params = 6;
         else if(strcmp(data->kernel_fun, "univariate_spacetime_matern_stationary")   == 0)
             num_params = 7;
+        else if(strcmp(data->kernel_fun, "bivariate_matern_differential_operator")   == 0)
+            num_params = 13;
         else
         {
             fprintf(stderr,"Choosen kernel is not exist(7)!\n");

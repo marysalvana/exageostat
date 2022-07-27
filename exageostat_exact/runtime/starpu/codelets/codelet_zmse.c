@@ -33,7 +33,7 @@ static void CORE_dmse_starpu(void *buffers[], void *cl_arg){
 
     for(i = 0; i < m; i++)
     {
-        // 		printf("%f, %f, \n",zpre[i], zmiss[i]);
+         		printf("%f, %f, \n",zpre[i], zmiss[i]);
         local_serror += pow((zpre[i]-zmiss[i]), 2);
     }
 

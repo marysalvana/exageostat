@@ -341,6 +341,8 @@ double MORSE_dmle_Tile(unsigned n, const double * theta, double * grad, void * M
         num_params = 6;
     else if(strcmp(data->kernel_fun, "univariate_spacetime_matern_stationary")   == 0)
         num_params = 7;
+    else if(strcmp(data->kernel_fun, "bivariate_matern_differential_operator")   == 0)
+        num_params = 13;
     else
     {
         fprintf(stderr,"Choosen kernel is not exist(2)!\n");
@@ -890,7 +892,8 @@ void MORSE_dmle_Predict_Allocate(MLE_data *MORSE_data, int nZmiss, int nZobs, in
             strcmp(data->kernel_fun, "bivariate_matern_flexible")   == 0 ||
             strcmp(data->kernel_fun, "bivariate_matern_flexible_profile")   == 0 ||
             strcmp(data->kernel_fun, "bivariate_matern_flexible2")   == 0 ||
-            strcmp(data->kernel_fun, "bivariate_matern_flexible2_profile")   == 0 )
+            strcmp(data->kernel_fun, "bivariate_matern_flexible2_profile")   == 0 ||
+            strcmp(data->kernel_fun, "bivariate_matern_differential_operator")   == 0)
     {
 
         nZobs*=2;
@@ -1045,6 +1048,8 @@ double MORSE_dmle_Predict_Tile(MLE_data *MORSE_data, double * theta, int nZmiss,
         num_params = 6;
     else if(strcmp(data->kernel_fun, "univariate_spacetime_matern_stationary")   == 0)
         num_params = 7;
+    else if(strcmp(data->kernel_fun, "bivariate_matern_differential_operator")   == 0)
+        num_params = 13;
     else
     {
         fprintf(stderr,"Choosen kernel is not exist(1)!\n");
@@ -1136,7 +1141,7 @@ double MORSE_dmle_Predict_Tile(MLE_data *MORSE_data, double * theta, int nZmiss,
         START_TIMING(time_mse);
         VERBOSE("Calculate Mean Square Error (MSE) ... (Prediction Stage) \n");
 
-        if(strcmp(data->kernel_fun, "bivariate_matern_parsimonious")   == 0 || strcmp(data->kernel_fun, "bivariate_matern_parsimonious2")   == 0 || strcmp(data->kernel_fun, "bivariate_matern_parsimonious_profile")   == 0 ) 
+        if(strcmp(data->kernel_fun, "bivariate_matern_parsimonious")   == 0 || strcmp(data->kernel_fun, "bivariate_matern_parsimonious2")   == 0 || strcmp(data->kernel_fun, "bivariate_matern_parsimonious_profile")   == 0 || strcmp(data->kernel_fun, "bivariate_matern_differential_operator")   == 0) 
 
             MORSE_MLE_dmse_bivariate_Tile_Async(MORSE_descZactual, MORSE_descZmiss, MORSE_descmse1, MORSE_descmse2, MORSE_descmse,  msequence, mrequest);
         else
@@ -1382,6 +1387,8 @@ void MORSE_dmle_mloe_mmom_Allocate(MLE_data *MORSE_data, int nZmiss, int nZobs, 
         p       = 2;
     else if(strcmp(data->kernel_fun, "univariate_spacetime_matern_stationary")   == 0)
         p	= 1;
+    else if(strcmp(data->kernel_fun, "bivariate_matern_differential_operator")   == 0 )
+        p       = 2;
     else
     {
         fprintf(stderr,"Choosen kernel is not exist(24)!\n");

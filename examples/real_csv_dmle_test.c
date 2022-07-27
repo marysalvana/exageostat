@@ -85,6 +85,11 @@ int main(int argc, char **argv) {
         num_params = 7;
         p 	   = 1;
     }
+    else if(strcmp(arguments.kernel_fun, "bivariate_matern_differential_operator")   == 0 )
+        {
+                num_params     = 13;
+                p              = 2;
+        }
     double* lb = (double *) malloc(num_params * sizeof(double));
     double* up = (double *) malloc(num_params * sizeof(double));
 
@@ -101,6 +106,23 @@ int main(int argc, char **argv) {
             &nZmiss, &log, initial_theta,
             starting_theta, target_theta, lb,
             up, &data, &arguments);
+
+    if(strcmp(arguments.kernel_fun, "bivariate_matern_differential_operator")   == 0)
+    {
+        starting_theta[0]=0.2;
+        starting_theta[1]=20;
+        starting_theta[2]=2;
+        starting_theta[3]=2;
+        starting_theta[4]=0.18984991;
+        starting_theta[5]=0.00001;
+        starting_theta[6]=0.00001;
+        starting_theta[7]=0.24737135;
+        starting_theta[8]=0.00001;
+        starting_theta[9]=0.00001;
+        starting_theta[10]=0.05016012;
+        starting_theta[11]=0;
+        starting_theta[12]=0;
+    }
 
     if(strcmp(arguments.kernel_fun, "bivariate_matern_parsimonious2")   == 0
             || strcmp(arguments.kernel_fun, "bivariate_matern_parsimonious_profile")   == 0
@@ -131,7 +153,7 @@ int main(int argc, char **argv) {
     //Read locations from a flat file.
     N = countlines(data.locsFPath);
 
-    if(strcmp (arguments.dim, "3d") == 0)
+    if(strcmp (arguments.dim, "3d") == 0 || strcmp (arguments.dim, "earth") == 0)
         locations = (location *)readLocsFile3d(data.locsFPath, N);
     else   
     {
@@ -240,7 +262,7 @@ int main(int argc, char **argv) {
     {
         printf( "%s ========\n", data.actualZLocFPath);
         nZmiss = countlines(data.actualZLocFPath);
-        if(strcmp (arguments.dim, "3d") == 0)
+        if(strcmp (arguments.dim, "3d") == 0 || strcmp (arguments.dim, "earth") == 0)
             missing_locations = readLocsFile3d(data.actualZLocFPath, N);
         else
         {
@@ -530,6 +552,7 @@ int main(int argc, char **argv) {
         starting_theta[0]=data.variance1;
         starting_theta[1]=data.variance2;
     }
+
     write_to_estimatedtheta( str, starting_theta, num_params, N/p, pred_time, all_time, (avg_pred_value1/=pred_samples), (avg_pred_value2/=pred_samples), (avg_pred_value/=pred_samples), data.mloe , data.mmom, zvecs);
 }
 

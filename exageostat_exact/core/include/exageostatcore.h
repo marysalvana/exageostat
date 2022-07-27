@@ -61,6 +61,10 @@ void core_dcmg_bivariate_parsimonious (double *A, int m, int n,
         int m0, int n0, location  *l1,
         location *l2, double *localtheta, int distance_metric);
 
+void core_dcmg_bivariate_differential_operator (double *A, int m, int n,
+        int m0, int n0, location  *l1,
+        location *l2, double *localtheta, int distance_metric);
+
 void core_dcmg_bivariate_parsimonious2 (double *A, int m, int n,
         int m0, int n0, location  *l1,
         location *l2, double *localtheta, int distance_metric, int size);

@@ -43,11 +43,13 @@ static void CORE_dmse_bivariate_starpu(void *buffers[], void *cl_arg){
 		{
 			local_serror1 += pow((zpre[i]-zmiss[i]), 2);
 		//	printf("===%f\n", local_serror1);
+
 		}		else
 			local_serror2 += pow((zpre[i]-zmiss[i]), 2);
-		local_serror += pow((zpre[i]-zmiss[i]), 2);
 
+		local_serror += pow((zpre[i]-zmiss[i]), 2);
 	//	printf("%f, %f, %f\n", local_serror1, local_serror2, local_serror);
+         	printf("%f, %f, \n",zpre[i], zmiss[i]);
 	}
 
 	*serror1 += local_serror1;
